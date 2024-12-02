@@ -11,6 +11,16 @@ def is_safe(level):
     )
 
 
+def is_dampened_safe(level):
+    if is_safe(level):
+        return True
+
+    return any(
+        is_safe(level[:idx] + level[idx + 1:])
+        for idx in range(0, len(level))
+    )
+
+
 def a():
     with open("d02.in") as fp:
         return sum(
@@ -20,5 +30,16 @@ def a():
         )
 
 
+def b():
+    with open("d02.in") as fp:
+        return sum(
+            1
+            for level_desc in fp
+            if is_dampened_safe(list(map(int, level_desc.split())))
+        )
+
+
+
 if __name__ == "__main__":
     print(a())
+    print(b())
