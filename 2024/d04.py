@@ -64,5 +64,29 @@ def a():
     )
 
 
+def b():
+    grid = pathlib.Path("d04.in").read_text().splitlines()
+    height = len(grid)
+    width, = {len(gridline) for gridline in grid}
+
+    diags = {
+        (x, y)
+        for x in range(1, width - 1)
+        for y in range(1, height - 1)
+        if grid[x][y] == "A"
+        if {grid[x-1][y-1], grid[x+1][y+1]} == {"M", "S"}
+    }
+    antidiags = {
+        (x, y)
+        for x in range(1, width - 1)
+        for y in range(1, height - 1)
+        if grid[x][y] == "A"
+        if {grid[x+1][y-1], grid[x-1][y+1]} == {"M", "S"}
+    }
+
+    return len(diags & antidiags)
+
+
 if __name__ == "__main__":
     print(a())
+    print(b())
